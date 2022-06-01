@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}bienvenid@{% endblock %}</title>
+    <link  href="{% static 'materialize/css/materialize.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {% block extracss %}
+    {% endblock %}
+    <!--para un mejor manejo en mobiles-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+<div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper grey darken-3">
+        <!--logo (escudo de la universidad y nombre de la iudad)-->
+        <img src="{% static 'escudos/uajms.png' %}" alt="" class="circle" style="height: 64px; line-height: 64px;">
+        <a href="#!" class="brand-logo">Yacuiba</a>
+        <!--preparacion de menu para movil-->
+        <a href="#" data-target="mobile_menu" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+        <!--lista de componentes del la barra de navegacion-->
+        <ul class="right hide-on-med-and-down">
+            <li><a href="#">algo de historia</a></li>
+            <li><a href="#">mapa</a></li>
+            <li><a href="#">servicios</a></li>
+            <li><a href="#">paseos virtuales</a></li>
+            <li><a href="#">albumes</a></li>
+            <!-- Dropdown Trigger -->
+            <li><a class="dropdown-trigger" href="#" data-target="dropdown1">
+                {% if user.is_authenticated %}
+                {{user.nombres}}
+                {% else %}
+                ingreso
+                {% endif %}
+                <i class="material-icons right">account_circle</i></a></li>
+        </ul>
+      </div>
+    </nav>
+</div>
+<!--lista de componentes menu para mobiles--> 
+<ul class="sidenav" id="mobile_menu">
+    <li><a href="#">Sass</a></li>
+    <li><a href="#">Components</a></li>
+    <li><a href="#">Javascript</a></li>
+    <li><a href="#">Mobile</a></li>
+</ul>
+<!--estructura para el perfil-->
+<ul id="dropdown1" class="dropdown-content">
+    {% if user.is_authenticated %}
+        <li><a href="#"><i class="material-icons">account_circle</i>perfil</a></li>
+        <li><a href="#"><i class="material-icons">notifications</i>notificaciones</a></li>
+        <li><a href="#"><i class="material-icons">help</i>como usar la pagina web</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'users:logout' %}"><i class="material-icons">logout</i>cerrar sesion</a></li>
+    {% else %}
+        <li><a href="{% url 'login'%}"><i class="material-icons">input</i>iniciar session</a></li>
+        <li><a href="#"><i class="material-icons">person_add</i>registro</a></li>
+    {% endif %}
+</ul>
+{% block content %}
+<h1>primera prueba</h1>
+{% endblock %}
+{% block extrajs %}
+{% endblock %}
+<script src="{% static 'materialize/js/materialize.js' %}"></script>
+<script>
+    M.AutoInit();
+</script>
+</body>
+</html>
