@@ -32,13 +32,14 @@ class Usuario(AbstractBaseUser):
     nombres = models.CharField('nombres', max_length=150, blank=False, null = True)
     apellidos = models.CharField('apellidos', max_length=150, blank=False, null = True)
     rol = models.ForeignKey('Rol', on_delete=models.CASCADE, default=2)
-    genero = models.ForeignKey('Genero', on_delete=models.CASCADE, default=1)
+    genero = models.ForeignKey('Genero', on_delete=models.CASCADE, default=3)
     nacionalidad = models.ForeignKey('Pais', on_delete=models.CASCADE,default=1)
-    estado = models.BooleanField(default=True)
-    u_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(verbose_name = 'estado',default=True)
+    u_admin = models.BooleanField(verbose_name = 'administrador',default=False)
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'username'
+    EMAIL_FIELD = 'username'
 
     def __str__(self):
         return f'{self.apellidos}, {self.nombres}'
@@ -55,6 +56,7 @@ class Usuario(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.u_admin
+
     
 class Rol(models.Model):
     id = models.AutoField(primary_key = True)

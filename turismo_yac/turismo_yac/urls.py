@@ -22,7 +22,7 @@ from apps.usuario import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('apps.mapa.urls','mapa'))),
-    path('', include(('apps.usuario.urls','users'))),
+    path('usuarios/', include(('apps.usuario.urls','usuarios'))),
     path('cuentas/', include('django.contrib.auth.urls')),
     
 ]
