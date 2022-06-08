@@ -18,10 +18,12 @@ from django.urls import path, include
 
 from apps.mapa import views
 from apps.usuario import views
+from apps.portada import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(('apps.mapa.urls','mapa'))),
+    path('', include(('apps.portada.urls','portada'))),
+    path('mapa', include(('apps.mapa.urls','mapa'))),
     path('usuarios/', include(('apps.usuario.urls','usuarios'))),
     path('cuentas/', include('django.contrib.auth.urls')),
     

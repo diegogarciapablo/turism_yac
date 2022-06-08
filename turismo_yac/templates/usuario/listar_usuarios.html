@@ -1,0 +1,81 @@
+{% extends 'main_usuario.html' %}
+{% load static %}
+{% block title %}
+listado usuarios
+{% endblock %}
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTable/datatables.min.css' %}"/>
+    <style type="text/css">
+        select {
+            display: inline-grid;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col s10 offset-s1">
+        <h2 class="header">listado de usuarios</h2>
+                    {% if u_lista %}
+                        <table id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>correo electronico</th>
+                                    <th>nombres</th>
+                                    <th>apellidos</th>
+                                    <th>genero</th>
+                                    <th>nacionalidad</th>
+                                    <th>rol</th>
+                                    <th>opciones</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                {% for usuario in u_lista %}
+                                <tr>
+                                    <td>{{usuario.username}}</td>
+                                    <td>{{usuario.nombres}}</td>
+                                    <td>{{usuario.apellidos}}</td>
+                                    <td>{% if usuario.genero == "h" %}
+                                        hombre
+                                        {% else %}
+                                        mujer
+                                        {% endif %}
+                                    </td>
+                                    <td>{{usuario.nacionalidad}}</td>
+                                    <td>{{usuario.rol}}</td>
+                                    <td>
+                                        <a href="#!" class="waves-effect waves-light btn">editar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    {% endif %}
+                
+    </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+    <script type="text/javascript" src="{% static 'DataTable/datatables.min.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready( function() {
+                $('#dataTable').DataTable();
+            } );
+            $('#dataTable').dataTable( {
+              "language": {
+                "lengthMenu": "mostrar entradas _MENU_",
+                "search": "busqueda:",
+                "info": "mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                                "first":      "primera",
+                                "last":       "ultima",
+                                "next":       "siguiente",
+                                "previous":   "anterior"
+                            },
+                "zeroRecords":    "no se encuentran resultados para su busqueda",
+              }
+            } );
+        </script>
+{% endblock %}
