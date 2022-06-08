@@ -50,7 +50,7 @@
 <!--estructura para el perfil-->
 <ul id="dropdown1" class="dropdown-content">
     {% if user.is_authenticated %}
-        <li><a href="{% url 'usuarios:editar_autor' user.id %}"><i class="material-icons">account_circle</i>editar perfil</a></li>
+        <li><a href="{% url 'usuarios:editar_usuario' user.id %}"><i class="material-icons">account_circle</i>editar perfil</a></li>
         <li><a href="#"><i class="material-icons">notifications</i>notificaciones</a></li>
         <li><a href="#"><i class="material-icons">help</i>como usar la pagina web</a></li>
         <li class="divider"></li>

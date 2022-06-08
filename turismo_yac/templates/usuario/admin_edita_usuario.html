@@ -1,0 +1,45 @@
+{% extends "main_usuario.html" %}
+    {% block title %}bienvenid@{% endblock %}
+    {% block extracss %}
+    <style type="text/css">
+        checkbox {
+            display: inline-grid;
+        }
+    </style>
+    {% endblock %}
+    {% block content %}
+    <div class="row">
+        {% for error in u_form.username.errors %}
+         <a href="#" class="waves-effect waves-light red btn">{{ error }}</a>
+        {% endfor %}
+        <form class="col s12" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="input-field col s12">
+                <div class="row">
+                    <div class="input-field col s4 offset-s4">
+                        {{ u_form.rol }}
+                        <label for="id_rol">rol</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s4 offset-s4">
+                            <label>
+                                 {{ u_form.is_active }}
+                                 <span>estado</span>
+                            </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s4 offset-s4">
+                        <button class=" waves-effect waves-green light-green darken-3 btn" type="submit">registrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+    {% endblock %}
+    {% block extrajs %}
+    
+    {% endblock %}

@@ -45,7 +45,7 @@ listado usuarios
                                     <td>{{usuario.nacionalidad}}</td>
                                     <td>{{usuario.rol}}</td>
                                     <td>
-                                        <a href="#!" class="waves-effect waves-light btn">editar</a>
+                                        <a href="{% url 'usuarios:a_edit_user' usuario.id %}" class="waves-effect waves-light btn">editar</a>
                                     </td>
                                 </tr>
                                 {% endfor %}

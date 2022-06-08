@@ -7,6 +7,9 @@
         {% for error in u_form.username.errors %}
          <a href="#" class="waves-effect waves-light red btn">{{ error }}</a>
         {% endfor %}
+        {% for error in form.password2.errors %}
+         <a href="#" class="waves-effect waves-light red btn">{{ error }}</a>
+        {% endfor %}
         <form class="col s12" method="POST">
         {% csrf_token %}
         <div class="row">
@@ -17,6 +20,7 @@
                         <label for="id_username">Email</label>
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="input-field col s4 offset-s4">
                         {{ u_form.nombres }}
@@ -37,7 +41,7 @@
                     <div class="input-field col s2">
                         <div>
                             <label >
-                                <input  name="genero" type="radio" value="h" checked />
+                                <input  name="genero" type="radio" value="h" />
                                 <span>hombre</span>
                             </label>
                         </div>
@@ -61,5 +65,4 @@
     </div>
     {% endblock %}
     {% block extrajs %}
-    
     {% endblock %}

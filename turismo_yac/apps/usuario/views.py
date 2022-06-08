@@ -35,16 +35,28 @@ def ListadoUsuario(request):
 
 
 def EditarUsuario(request,id):
+    if request.user.id==id:
+        usuario = Usuario.objects.get(id=id)
+        if request.method == 'GET':
+            u_form = FormEditUsuario(instance = usuario)
+        else:
+            u_form = FormEditUsuario(request.POST, instance = usuario)
+            if u_form.is_valid():
+                print("usuario valido")
+                u_form.save()
+            return redirect('portada:index')
+        return render(request,'usuario/editar_usuario.html',{'u_form':u_form})
+    else:
+        return redirect('portada:index')
+
+def AdminEditaUsuario(request,id):
     usuario = Usuario.objects.get(id=id)
     if request.method == 'GET':
-        u_form = FormEditUsuario(instance = usuario)
+       u_form = FormEditAdmin(instance = usuario)
     else:
-        u_form = FormEditUsuario(request.POST, instance = usuario)
+        u_form = FormEditAdmin(request.POST, instance = usuario)
         if u_form.is_valid():
             print("usuario valido")
             u_form.save()
         return redirect('portada:index')
-    return render(request,'usuario/editar_usuario.html',{'u_form':u_form})
-
-
-
+    return render(request,'usuario/admin_edita_usuario.html',{'u_form':u_form})

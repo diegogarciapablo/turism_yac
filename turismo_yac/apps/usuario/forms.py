@@ -89,3 +89,21 @@ class FormEditUsuario(forms.ModelForm):
                 }
                 ),
         }
+
+class FormEditAdmin(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ('is_active','rol')
+        widgets = {
+            'is_active' : forms.CheckboxInput(
+                attrs = {
+                    'class' : 'validate',
+                    'required' : 'required',
+                }
+                ),
+            'rol' : forms.Select(
+                attrs = {
+                    'class' : 'validate'
+                }
+                ),
+            }
