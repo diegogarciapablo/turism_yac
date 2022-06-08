@@ -29,9 +29,13 @@ def RegistrarUsuario(request):
         'form':form
         }
     return render(request,'usuario/crear_usuario.html', context)
+
 def ListadoUsuario(request):
-    u_lista = Usuario.objects.all()
-    return render(request,'usuario/listar_usuarios.html',{'u_lista': u_lista})
+    if request.user.rol_id == 1:
+        u_lista = Usuario.objects.all()
+        return render(request,'usuario/listar_usuarios.html',{'u_lista': u_lista})
+    else:
+        return redirect('portada:index')
 
 
 def EditarUsuario(request,id):
@@ -50,13 +54,16 @@ def EditarUsuario(request,id):
         return redirect('portada:index')
 
 def AdminEditaUsuario(request,id):
-    usuario = Usuario.objects.get(id=id)
-    if request.method == 'GET':
-       u_form = FormEditAdmin(instance = usuario)
+    if request.user.rol_id == 1:
+        usuario = Usuario.objects.get(id=id)
+        if request.method == 'GET':
+           u_form = FormEditAdmin(instance = usuario)
+        else:
+            u_form = FormEditAdmin(request.POST, instance = usuario)
+            if u_form.is_valid():
+                print("usuario valido")
+                u_form.save()
+            return redirect('portada:index')
+        return render(request,'usuario/admin_edita_usuario.html',{'u_form':u_form})
     else:
-        u_form = FormEditAdmin(request.POST, instance = usuario)
-        if u_form.is_valid():
-            print("usuario valido")
-            u_form.save()
         return redirect('portada:index')
-    return render(request,'usuario/admin_edita_usuario.html',{'u_form':u_form})

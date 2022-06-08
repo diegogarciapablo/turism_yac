@@ -26,6 +26,7 @@ listado usuarios
                                     <th>genero</th>
                                     <th>nacionalidad</th>
                                     <th>rol</th>
+                                    <th>estado</th>
                                     <th>opciones</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,12 @@ listado usuarios
                                     </td>
                                     <td>{{usuario.nacionalidad}}</td>
                                     <td>{{usuario.rol}}</td>
+                                    <td>{% if usuario.is_active == True %}
+                                        activo
+                                        {% else %}
+                                        inactivo
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="{% url 'usuarios:a_edit_user' usuario.id %}" class="waves-effect waves-light btn">editar</a>
                                     </td>

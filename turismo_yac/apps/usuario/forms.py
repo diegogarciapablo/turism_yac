@@ -98,7 +98,6 @@ class FormEditAdmin(forms.ModelForm):
             'is_active' : forms.CheckboxInput(
                 attrs = {
                     'class' : 'validate',
-                    'required' : 'required',
                 }
                 ),
             'rol' : forms.Select(
