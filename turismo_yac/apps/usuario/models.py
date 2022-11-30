@@ -5,8 +5,7 @@ class UsuarioManager(BaseUserManager):
     def create_user(self, username,  password = None):
         if not username:
             raise ValueError("debes escribir un nombre de usuario")
-        if not password:
-            raise ValueError("debes escribir tu contraseña")
+        
         usuario = self.model(
             username = self.normalize_email(username),
             

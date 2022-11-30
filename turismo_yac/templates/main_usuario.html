@@ -24,7 +24,7 @@
             <!--lista de componentes del la barra de navegacion-->
             <ul class="right hide-on-med-and-down">
                 <li><a href="#">algo de historia</a></li>
-                <li><a href="#">mapa</a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown2">mapa</a></li>
                 <li><a href="#">servicios</a></li>
                 <li><a href="#">paseos virtuales</a></li>
                 <li><a href="#">albumes</a></li>
@@ -60,8 +60,15 @@
         <li><a href="{% url 'usuarios:registrar_usuario'%}"><i class="material-icons">person_add</i>registro</a></li>
     {% endif %}
 </ul>
+<!--estructura para el mapa y registro de lugares-->
+<ul id="dropdown2" class="dropdown-content">
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'mapa:registro_ubi'%}"><i class="material-icons">add_location</i>agregar ubicacion</a></li>
+        <li class="divider"></li>   
+    {% endif %}
+        <li><a href="{% url 'mapa:vmapa'%}"><i class="material-icons">map</i>ver mapa</a></li>
+</ul>
 {% block content %}
-
 {% endblock %}
 <script src="{% static 'DataTable/jQuery-3.6.0/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'materialize/js/materialize.js' %}"></script>

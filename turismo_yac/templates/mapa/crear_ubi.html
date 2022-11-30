@@ -1,0 +1,62 @@
+{% extends 'main_usuario.html' %}
+{% load static %}
+{% block title %}
+ agregando ubicacion
+{% endblock %}
+{% block content %}
+        
+        <div class="row" >
+            <div class="col s12" >
+                <div class="row" >
+                    <div class="col s4 offset-s2" >
+                    <form class="user" method="POST" >
+                        {% csrf_token %}
+                        {% if error %}
+                            <h2>{{error}}</h2>
+                        {% else %}
+
+                        <table>
+                        
+                            <tr >
+                                <td >
+                                <label >tipo de ubicacion: </label>
+                                </td>
+                                <td>
+                                    {{ ubi_form.clasificacion }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>nombre del lugar: </label></td>
+                                <td>{{ ubi_form.n_ubicacion }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>escriba las calles: </label></td>
+                                <td>{{ ubi_form.direccion }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>ingrese latitud: </label></td>
+                                <td>{{ ubi_form.latitud }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>ingrese longitud: </label></td>
+                                <td>{{ ubi_form.longitud }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>autorizado por</label></td>
+                                <td><input type="text" name="autorizacion" value="{{user.id}}"></td>                            
+                            </tr>
+                        </table>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">crear</button>
+                        {% endif %}
+                    </form>
+                    </div>
+                    <div class="col s5" style=" padding: 5% 0; ">
+                        {{m | safe}}
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+{% endblock %}
+{% block extrajs %}
+{% endblock %}

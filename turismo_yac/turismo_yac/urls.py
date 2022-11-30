@@ -23,8 +23,10 @@ from apps.portada import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('apps.portada.urls','portada'))),
-    path('mapa', include(('apps.mapa.urls','mapa'))),
+    path('mapa/', include(('apps.mapa.urls','mapa'))),
     path('usuarios/', include(('apps.usuario.urls','usuarios'))),
     path('cuentas/', include('django.contrib.auth.urls')),
+    path('album/', include(('apps.albumes.urls','album'))),
+    path('paseos_v/', include(('apps.paseosv.urls','paseov'))),
     
 ]

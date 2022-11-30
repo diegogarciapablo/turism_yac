@@ -14,6 +14,18 @@ from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
+def iniciosesion(request):
+    if request.method == 'POST':
+        form = FormularioLogin(request.POST)
+        if form.is_valid(): 
+            return redirect('portada:index')
+    else:
+        form = FormularioLogin()
+    context = {
+        'form':form
+        }
+    return render(request,'usuario/crear_usuario.html', context)
+
 def RegistrarUsuario(request):
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
@@ -49,6 +61,7 @@ def EditarUsuario(request,id):
                 print("usuario valido")
                 u_form.save()
             return redirect('portada:index')
+        print(u_form)
         return render(request,'usuario/editar_usuario.html',{'u_form':u_form})
     else:
         return redirect('portada:index')

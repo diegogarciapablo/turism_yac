@@ -40,14 +40,22 @@
                     </div>
                     <div class="input-field col s2">
                         <div>
-                            <label >
-                                <input  name="genero" type="radio" value="h" />
+                            <label > 
+                                {% if u_form.genero.value == "h" %}
+                                <input  name="genero" type="radio" value="h" checked />
+                                {% else %}
+                                <input  name="genero" type="radio" value="h"/>
+                                {% endif %}
                                 <span>hombre</span>
                             </label>
                         </div>
                         <div>
                             <label>
-                                <input name="genero" type="radio" value="m" />
+                                {% if u_form.genero.value == "m" %}      
+                                <input name="genero" type="radio" value="m" checked />
+                                {% else %}
+                                <input name="genero" type="radio" value="m"/>
+                                {% endif %}
                                 <span>mujer</span>
                             </label>
                         </div>

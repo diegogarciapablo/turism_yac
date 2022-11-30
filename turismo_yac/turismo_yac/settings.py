@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'apps.mapa',
     'apps.usuario',
     'apps.portada',
+    'apps.albumes',
+    'apps.paseosv',
 ]
 
 MIDDLEWARE = [
