@@ -1,0 +1,87 @@
+{% extends 'main_usuario.html' %}
+{% load static %}
+{% block title %}
+listado usuarios
+{% endblock %}
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTable/datatables.min.css' %}"/>
+    <style type="text/css">
+        select {
+            display: inline-grid;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col s10 offset-s1">
+        <h2 class="header">listado de ubicaciones</h2>
+                    {% if u_lista %}
+                        <table id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>n_ubicacion</th>
+                                    <th>clasificacion</th>
+                                    <th>direccion</th>
+                                    <th>descripcion</th>
+                                    {% if user.is_authenticated %}
+                                        {% if user.rol_id != 2 %}
+                                        <th>autorizacion</th>
+                                        <th>estado</th>
+                                        <th>opciones</th>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                {% for ubi in u_lista %}
+                                <tr>
+                                    <td>{{ubi.n_ubicacion}}</td>
+                                    <td>{{ubi.clasificacion}}</td>
+                                    <td>{{ubi.direccion}}</td>
+                                    <td>{{ubi.descripcion}}</td>
+                                    {% if user.is_authenticated %}
+                                        {% if user.rol_id != 2 %}
+                                        <td>{{ubi.autorizacion}}</td>
+                                        {% if ubi.estado == True %}
+                                            <td>activo</td>
+                                        {% else %}
+                                            <td>inactivo</td>
+                                        {% endif %}
+                                        <td>
+                                            <a href="{% url 'mapa:edit_ubi' ubi.id %}" class="waves-effect waves-light btn">editar</a>
+                                        </td>
+                                        {% endif %}
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    {% endif %}
+                
+    </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+    <script type="text/javascript" src="{% static 'DataTable/datatables.min.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready( function() {
+                $('#dataTable').DataTable();
+            } );
+            $('#dataTable').dataTable( {
+              "language": {
+                "lengthMenu": "mostrar entradas _MENU_",
+                "search": "busqueda:",
+                "info": "mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                                "first":      "primera",
+                                "last":       "ultima",
+                                "next":       "siguiente",
+                                "previous":   "anterior"
+                            },
+                "zeroRecords":    "no se encuentran resultados para su busqueda",
+              }
+            } );
+        </script>
+{% endblock %}

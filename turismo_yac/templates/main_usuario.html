@@ -7,10 +7,12 @@
     <!--para un mejor manejo en mobiles-->
     
     <title>{% block title %}bienvenid@{% endblock %}</title>
+    {% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'materialize/main/main.css' %}">
+    {% endblock %}
     <link  href="{% static 'materialize/css/materialize.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    {% block extracss %}
-    {% endblock %}
+    
 </head>
 <body>
 <div class="navbar-fixed">
@@ -23,11 +25,11 @@
             <a href="#" data-target="mobile_menu" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
             <!--lista de componentes del la barra de navegacion-->
             <ul class="right hide-on-med-and-down">
-                <li><a href="#">algo de historia</a></li>
+                <li><a href="{% url 'portada:historia' %}">algo de historia</a></li>
                 <li><a class="dropdown-trigger" href="#" data-target="dropdown2">mapa</a></li>
-                <li><a href="#">servicios</a></li>
-                <li><a href="#">paseos virtuales</a></li>
-                <li><a href="#">albumes</a></li>
+                <li><a class="dropdown-trigger" href="#" data-target="dropdown3">servicios</a></li>
+                <li><a href="{% url 'paseov:listaseov' %}">paseos virtuales</a></li>
+                <li><a href="{% url 'album:listalbum' %}">albumes</a></li>
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-trigger" href="#" data-target="dropdown1">
                     {% if user.is_authenticated %}
@@ -51,12 +53,14 @@
 <ul id="dropdown1" class="dropdown-content">
     {% if user.is_authenticated %}
         <li><a href="{% url 'usuarios:editar_usuario' user.id %}"><i class="material-icons">account_circle</i>editar perfil</a></li>
-        <li><a href="#"><i class="material-icons">notifications</i>notificaciones</a></li>
-        <li><a href="#"><i class="material-icons">help</i>como usar la pagina web</a></li>
+        <li><a href="{% url 'mapa:miscoments' user.id %}"><i class="material-icons">list</i>ver mis comentarios</a></li>
+        {% if user.rol_id == 1 %}
+            <li><a href="{% url 'portada:index_main' %}"><i class="material-icons">help</i>pagina de administracion</a></li>
+        {% endif %}
         <li class="divider"></li>
         <li><a href="{% url 'logout' %}"><i class="material-icons">logout</i>cerrar sesion</a></li>
     {% else %}
-        <li><a href="{% url 'login'%}"><i class="material-icons">input</i>iniciar session</a></li>
+        <li><a href="{% url 'usuarios:login_user'%}"><i class="material-icons">input</i>iniciar session</a></li>
         <li><a href="{% url 'usuarios:registrar_usuario'%}"><i class="material-icons">person_add</i>registro</a></li>
     {% endif %}
 </ul>
@@ -68,13 +72,88 @@
     {% endif %}
         <li><a href="{% url 'mapa:vmapa'%}"><i class="material-icons">map</i>ver mapa</a></li>
 </ul>
+<ul id="dropdown3" class="dropdown-content">
+    <li><a href="{% url 'mapa:listubif' 1 %}">plaza</a></li>
+    <li><a href="{% url 'mapa:listubif' 2 %}">hospedaje</a></li>
+    <li><a href="{% url 'mapa:listubif' 3 %}">sitio de comida</a></li>
+    <li><a href="{% url 'mapa:listubif' 4 %}">sitio religioso</a></li>
+    
+</ul>
 {% block content %}
+<div class="wrapper">
+        <div class="slider-holder">
+                <div class="carousel carousel-slider center-align">
+                    <div class="carousel-item" >
+                        <h1 class="d-block"><font color="black">disfruta del mirador</font></h1>
+                        <h4 ><font color="white">comparte una aventura con tus seres queridos.</font></h4>
+                        <img src="{%static 'main/assets/images/cruzz.png'%}">
+                    </div>
+                    <div class="carousel-item" >
+                        <h1 class="d-block" >Laguna Santa marta</h1>
+                        <h4 ><font color="white">orillas de la laguna a la luz de la luna.</font></h4>
+                        <img src="{%static 'main/assets/images/slider1.jpg'%}">
+                    </div>
+                    <div class="carousel-item" >
+                        <h1 class="d-block">Conoce nuevos lugares</h1>
+                        <h4 ><font color="white">Que esperas parar aprender un poco<br>mas de ti viajando.</font></h4>
+                        <img src="{%static 'main/assets/images/slider2.jpg'%}" >
+                    </div>
+                    <div class="carousel-item" >
+                        <h1 class="d-block"><font color="black">Conoce yacuiba</font></h1>
+                        <h4 ><font color="gray">ven y conoce esta frontera comercial con argentina.</font></h4>
+                        <img src="{%static 'main/assets/images/slider3.png'%}">
+                    </div>
+
+                </div>
+        </div>
+    </div>
+    
 {% endblock %}
 <script src="{% static 'DataTable/jQuery-3.6.0/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'materialize/js/materialize.js' %}"></script>
 <script>
     M.AutoInit();
 </script>
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        <script type="text/javascript">
+            M.toast({
+                html: '{{message}}',
+                classes: 'green rounded',
+                displayLength: 3000,
+            })
+        </script>
+        {% endif %}
+        {% if message.tags == 'info' %}
+        <script type="text/javascript">
+            M.toast({
+                html: '{{message}}',
+                classes: 'blue rounded',
+                displayLength: 3000,
+            })
+        </script>
+        {% endif %}
+        {% if message.tags == 'warning' %}
+        <script type="text/javascript">
+            M.toast({
+                html: '{{message}}',
+                classes: 'orange rounded',
+                displayLength: 3000,
+            })
+        </script>
+        {% endif %}
+        {% if message.tags == 'error' %}
+        <script type="text/javascript">
+            M.toast({
+                html: '{{message}}',
+                classes: 'red rounded',
+                displayLength: 3000,
+            })
+        </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 {% block extrajs %}
 {% endblock %}
 </body>

@@ -1,0 +1,285 @@
+/*////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    Themes Bootstrap - Personal Portfolio Template v1.0.0 (https://themesbootstrap.com.mx/templates/bravo-agency-template.html)
+    Copyright 2019 Themes Bootstrap
+    Licensed under MIT (https://github.com/diegovr7/bravo-agency/blob/master/LICENSE)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////*/
+:root {
+    --dark:#1a1a1a;
+    --white: #ffffff;
+    --light-grey: #efefef;
+    --gold: #ecd5a7;
+    --green:#4B610B;
+}
+
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: .05rem;
+    background-color: #4B610B !important;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+}
+
+a {
+    color: var(--light);
+}
+
+a:hover {
+    color: var(--light);
+    text-decoration: none;
+}
+
+.bg-light {
+    background-color: var(--white) !important;
+}
+
+.bg-light-grey {
+    background-color: var(--light-grey);
+}
+
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+
+.bg-gold {
+    background-color: var(--gold);
+}
+
+.text-dark {
+    color: var(--dark) !important;
+}
+.text-gold {
+    color: var(--gold) !important;
+}
+
+.btn {
+    padding: .5rem 1.8rem;
+    border-radius: .2rem;
+}
+
+
+
+.btn-secondary {
+    background-color: var(--dark);
+}
+
+.btn-gold {
+    background-color: var(--gold);
+    color: var(--dark);
+}
+
+.mt-6{
+    margin-top: 4rem;
+}
+
+.mb-6 {
+    margin-bottom: 4rem;
+}
+
+.navbar {
+    background-color: var(--dark);
+    min-height: 5rem;
+}
+
+.nav-link {
+    font-size: .8rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.navbar-toggler {
+    color: var(--white);
+}
+
+.badge {
+    font-weight: 500;
+    padding: .5rem 1.5rem;
+    line-height: 1.5;
+}
+
+section {
+    padding: 6rem 0;
+}
+
+#slider {
+    padding: 5rem 0 0 0;
+}
+
+.blog-info {
+    color: var(--white);
+    bottom: 1rem;
+    left: 1.5rem;
+}
+
+.form-control {
+    padding: 1.5rem 1rem;
+    font-weight: 300;
+    border: 0;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--dark);
+}
+
+@media (max-width: 575.98px) {
+    #slider h3 {
+        font-size: 1.2rem;
+    }
+    footer {
+        text-align: center;
+    }
+}
+
+.notification {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+.success {
+  background: #43DC7E;
+  color: white;
+}
+.error {
+  background: #AB3444;
+  color: white;
+  margin-bottom: 20px;
+}
+.dropdown .dropdown-menu{
+    font-size:.85rem
+    }
+.dropdown .dropdown-menu .dropdown-header{
+    font-weight:800;
+    font-size:.65rem;
+    color:#b7b9cc
+    }
+.dropdown.no-arrow .dropdown-toggle::after{
+    display:none
+    }
+.sidebar .nav-item.dropdown .dropdown-toggle::after,
+.topbar .nav-item.dropdown .dropdown-toggle::after{
+    width:1rem;
+    text-align:center;
+    float:right;
+    vertical-align:0;
+    border:0;
+    font-weight:900;
+    content:'\f105';
+    font-family:'Font Awesome 5 Free'
+    }
+.sidebar .nav-item .nav-link .img-profile,.topbar .nav-item .nav-link .img-profile{
+    height:2rem;
+    width:2rem
+    }
+
+.sidebar .nav-item .nav-link .badge-counter,.topbar .nav-item .nav-link .badge-counter{
+    position:absolute;
+    transform:scale(.7);
+    transform-origin:top right;
+    right:.25rem;
+    margin-top:-.25rem}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .35rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+#toast-container {
+  display: block;
+  position: fixed;
+  z-index: 10000;
+}
+
+@media only screen and (max-width: 600px) {
+  #toast-container {
+    min-width: 100%;
+    bottom: 0%;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 992px) {
+  #toast-container {
+    left: 5%;
+    bottom: 7%;
+    max-width: 90%;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  #toast-container {
+    top: 10%;
+    right: 7%;
+    max-width: 86%;
+  }
+}
+
+.toast {
+  // Prevents from shrinking in IE11, when in a flex container
+  // See https://github.com/twbs/bootstrap/issues/28341
+  flex-basis: $toast-max-width;
+  max-width: $toast-max-width;
+  @include font-size($toast-font-size);
+  color: $toast-color;
+  background-color: $toast-background-color;
+  background-clip: padding-box;
+  border: $toast-border-width solid $toast-border-color;
+  box-shadow: $toast-box-shadow;
+  opacity: 0;
+  @include border-radius($toast-border-radius);
+
+  &:not(:last-child) {
+    margin-bottom: $toast-padding-x;
+  }
+
+  &.showing {
+    opacity: 1;
+  }
+
+  &.show {
+    display: block;
+    opacity: 1;
+  }
+
+  &.hide {
+    display: none;
+  }
+}
+
+.toast-header {
+  display: flex;
+  align-items: center;
+  padding: $toast-padding-y $toast-padding-x;
+  color: $toast-header-color;
+  background-color: $toast-header-background-color;
+  background-clip: padding-box;
+  border-bottom: $toast-border-width solid $toast-header-border-color;
+  @include border-top-radius(subtract($toast-border-radius, $toast-border-width));
+}
+
+.toast-body {
+  padding: $toast-padding-x; // apply to both vertical and horizontal
+}

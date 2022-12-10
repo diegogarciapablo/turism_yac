@@ -1,0 +1,33 @@
+{% extends 'main_usuario.html'%}
+{% load static %}
+
+{% block title %} galeria{% endblock %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}">
+<link rel="stylesheet" href="{% static 'galeria/css/estilos.css'%}">
+{% endblock %}
+{% block content %}
+<div class="container">
+     <div class="container">
+     <div class="row">
+          <div class="col l12 center-align" >
+               <h1 class="titulo">galeria prueba</h1>
+          </div>
+     </div>
+     {% if f_lista %}
+               <div class="row galeria">
+                    {% for foto in f_lista %}
+                    <div class="col s12 m4 l3">
+                         <div class="material-placeholder" width="100%" height="100%">
+                              <img src="/media/{{foto.ruta_foto}}" alt="" class="responsive-img materialboxed" data-caption="{{foto.descripcion}}" >
+                         <a href="{% url 'album:descargar' foto.id %}" class="waves-effect waves-light btn">descargar</a>
+                         </div>
+                    </div>
+                    {% endfor %}
+               </div>
+     {% endif %}
+</div>
+{% endblock %}
+{% block extrajs %}
+<script type="{% static 'galeria/js/main.js'%}"></script>
+{% endblock %}

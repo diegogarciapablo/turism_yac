@@ -19,7 +19,7 @@ class FormularioUsuario(forms.ModelForm):
     ))
     class Meta:
         model = Usuario
-        fields = ('username','nacionalidad','genero')
+        fields = ('username','nacionalidad','genero','rol')
         widgets = {
             'username' : forms.EmailInput(
                 attrs = {
@@ -36,7 +36,12 @@ class FormularioUsuario(forms.ModelForm):
                 attrs = {
                     'class' : 'validate'
                 }
-                )
+                ),
+            'rol' : forms.Select(
+                attrs = {
+                    'class' : 'validate'
+                }
+                ),
         }
     def clean_password2(self):
         """
@@ -101,6 +106,24 @@ class FormEditAdmin(forms.ModelForm):
                 }
                 ),
             'rol' : forms.Select(
+                attrs = {
+                    'class' : 'validate'
+                }
+                ),
+            }
+
+
+class FormLog(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = ('username','password')
+        widgets = {
+            'username' : forms.TextInput(
+                attrs = {
+                    'class' : 'validate',
+                }
+                ),
+            'password' : forms.PasswordInput(
                 attrs = {
                     'class' : 'validate'
                 }

@@ -11,15 +11,16 @@ import branca
 
 def RegistrarUbicacion(request):
     if request.method == 'POST':
-        print('llego a post')
         ubicacion_form = FormUbicacion(request.POST)
-        print(ubicacion_form)
         ubi_valid= ubicacion_form.is_valid()
-        print(ubi_valid)
+        nubi = request.POST.get('n_ubicacion')
         if ubi_valid:
-            print('paso validacion')
             ubicacion_form.save()
+            messages.info(request,f'registro exitoso de ubicacion {nubi}')
             return redirect('portada:index')
+        else:
+            for error in ubicacion_form.errors.values():
+                messages.error(request,f'{error}')
     else:
         ubicacion_form=FormUbicacion()
         #creando mapa
@@ -35,44 +36,165 @@ def RegistrarUbicacion(request):
     return render(request,'mapa/crear_ubi.html', context)
 
 
+def EditarUbicacion(request,id):
+    ubi = Ubicacion.objects.get(id=id)
+    if request.method == 'GET':
+        ubi_form = FormUbicacion(instance = ubi)
+    else:
+        ubi_form = FormUbicacion(request.POST, instance = ubi)
+        nubi = request.POST.get('n_ubicacion')
+        if ubi_form.is_valid():
+            ubi_form.save()
+            messages.info(request,f'modificacion exitosa de categoria {nubi}')
+            return redirect('portada:index')
+        else: 
+            for error in ubi_form.errors.values():
+                messages.error(request,f'{error}')
+    
+    m = folium.Map(location=[ubi.latitud, ubi.longitud], zoom_start=16, )
+    folium.Marker([ubi.latitud, ubi.longitud]).add_to(m)
+    # obtencion de coordenadas
+    m.add_child(folium.LatLngPopup())
+    # representacion html del mapa
+    m = m._repr_html_()
+    context={
+        'm': m,
+        'ubi_form':ubi_form,
+            }
+    return render(request,'mapa/crear_ubi.html', context)
+
 def Mapa(request):
     #obteniendo datos de la db
-    ubi_lista = Ubicacion.objects.all().values_list()
+    ubi_lista = Ubicacion.objects.filter(estado=True).values_list()
     clas_lista = Clas_ubicacion.objects.all().values_list()
-    
-    grupo_plaza=folium.FeatureGroup(name='plazas')
-    grupo_comidas=folium.FeatureGroup(name='e. comidas')
-    grupo_alojamiento=folium.FeatureGroup(name='alojamientos')
-    #llenando Iframe
-
     #creando mapa
     m = folium.Map(location=[-22.01392810529076, -63.677741626018076], zoom_start=16, tiles='cartodbpositron',)
-    #marcadores y estableciendo capas
-    for x in ubi_lista:
-        for y in clas_lista:
-            grupo_clas=folium.FeatureGroup(name=y[1])
-            if x[2]==y[0]:
-                html = "<b>"+y[1].upper()+"</br>"+x[1].upper()+"</b></br>"+x[3].upper()
+    #combinando ambas consultas
+    cont=0
+    for y in ubi_lista:
+        for x in clas_lista:
+            if x[0]==y[2]:
+                html = "<b>"+x[1].upper()+"</br>"+y[1].upper()+"</b></br>"+y[3].upper()
                 iframe1 = branca.element.IFrame(html=html,width=170,height=130)
-                if x[2]==1:
-                    v_icon=folium.Icon(color='green',icon='tree-conifer')
-                    feature_g=grupo_plaza
-                if x[2]==3:
-                    v_icon=folium.Icon(color='orange',icon='cutlery')
-                    feature_g=grupo_comidas
-                if x[2]==2:
-                    v_icon=folium.Icon(color='blue',icon='home')
-                    feature_g=grupo_alojamiento
-                folium.Marker(location=[x[4],x[5]], popup=folium.Popup(iframe1, max_width=300),icon =v_icon ).add_to(feature_g)
-
-    #agregando capas y control de capas
-    m.add_child(grupo_plaza)
-    m.add_child(grupo_comidas)
-    m.add_child(grupo_alojamiento)
-    m.add_child(folium.map.LayerControl())
+                v_icon=folium.Icon(color=x[2],icon=x[3])
+                folium.Marker(location=[y[4],y[5]], popup=folium.Popup(iframe1, max_width=300),icon =v_icon ).add_to(m)
+                    
     # representacion html del mapa
     m = m._repr_html_()
     context={
         'm': m,
             }
     return render(request, 'mapa/mapa.html', context)
+
+@login_required
+def Listaubi1(request):
+    if request.user.rol_id == 1:
+        u_lista = Ubicacion.objects.all()
+        context={
+        'u_lista': u_lista,
+            }
+        return render(request,'mapa/listarubi.html', context)
+    else:
+        messages.info(request,f'no tiene permisos de administrador')
+        return redirect('portada:index')
+def Listaubi2(request, id):
+    u_lista = Ubicacion.objects.filter(clasificacion=id,estado=True)
+    context={
+    'u_lista': u_lista,
+        }
+    return render(request,'mapa/listarubi.html', context)
+
+def reg_clas(request):
+    if request.method == 'POST':
+        form = FormClasUbicacion(request.POST)
+        form_valid= form.is_valid()
+        if form_valid:
+            form.save()
+            messages.info(request,f'registro exitoso de clasificacion de ubicacion')
+            return redirect('portada:index')
+        else:
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
+    else:
+        form=FormClasUbicacion()
+    context={
+        'form':form,
+            }
+    return render(request,'mapa/re_cat_ubi.html', context)
+
+def Editar_clas(request,id):
+    clas = Clas_ubicacion.objects.get(id=id)
+    if request.method == 'GET':
+        form = FormClasUbicacion(instance = clas)
+    else:
+        form = FormClasUbicacion(request.POST, instance = clas)
+        nclas = request.POST.get('n_clas')
+        if form.is_valid():
+            form.save()
+            messages.info(request,f'modificacion exitosa de categoria {nclas}')
+            return redirect('portada:index')
+        else: 
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
+    return render(request,'mapa/re_cat_ubi.html',{'form':form})
+
+@login_required
+def List_Clas(request):
+    c_lista = Clas_ubicacion.objects.all()
+    context={
+    'c_lista': c_lista,
+        }
+    return render(request,'mapa/listarclas.html', context)
+
+def Reg_Comentario(request):
+    if request.method == 'POST':
+        form = FormComentario(request.POST)
+        form_valid= form.is_valid()
+        if form_valid:
+            form.save()
+            messages.info(request,f'registro exitoso del comentario')
+            return redirect('portada:index')
+        else:
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
+    else:
+        form=FormComentario()
+    context={
+        'form':form,
+            }
+    return render(request,'mapa/re_comentario.html', context)
+
+def Editar_coment(request,id):
+    coment = Comentario.objects.get(id=id)
+    if request.method == 'GET':
+        form = FormComentario(instance = coment)
+    else:
+        form = FormComentario(request.POST, instance = coment)
+        if form.is_valid():
+            form.save()
+            messages.info(request,f'modificacion exitosa de coemntario')
+            return redirect('portada:index')
+        else: 
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
+    return render(request,'mapa/re_comentario.html',{'form':form})
+
+@login_required
+def List_Comentarios(request):
+    if request.user.rol_id == 1:
+        c_lista = Comentario.objects.all()
+        context={
+        'c_lista': c_lista,
+            }
+        return render(request,'mapa/list_coment.html', context)
+    else:
+        messages.info(request,f'usted no tiene autorizacion para ingresar a este sitio')
+    return redirect('portada:index')
+
+@login_required
+def List_Comentarios2(request,id):
+    c_lista = Comentario.objects.filter(autor=id)
+    context={
+    'c_lista': c_lista,
+        }
+    return render(request,'mapa/list_coment.html', context)

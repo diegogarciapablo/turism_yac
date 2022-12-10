@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -135,6 +136,8 @@ STATICFILES_DIRS = [
 ]
 #configuracion para reconocer archivos dentro de aplicaciones
 STATIC_URL = 'static/'
+MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_URL = '/media/'
 #configuracion para redireccion despues de login
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'

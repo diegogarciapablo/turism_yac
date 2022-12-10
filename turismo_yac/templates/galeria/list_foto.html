@@ -1,0 +1,53 @@
+{% extends 'main_usuario.html'%}
+{% load static %}
+{% block title %} listado de albumes{% endblock %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}">
+<link rel="stylesheet" href="{% static 'galeria/css/estilos.css'%}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+          <div class="col s12">
+               <div class="row">
+                    <div class="col s10 offset-s1">
+                         <h2 class="header">listado de albumes</h2>
+                         {% if f_lista %}
+                             <table id="dataTable" width="100%" cellspacing="0">
+                                 <thead>
+                                     <tr>
+                                         <th>descripcion del archivo</th>
+                                         <th>archivo</th>
+                                         <th>album</th>
+                                         <th>opciones</th>
+                                     </tr>
+                                 </thead>
+                                
+                                 <tbody>
+                                     {% for foto in f_lista %}
+                                     <tr>
+                                         <td>{{foto.ruta_foto}}</td>
+                                         <td>{{foto.descripcion}}</td>
+                                         <td>{{foto.album}}</td>
+                                         <td>
+                                             <a href="{% url 'album:descargar' foto.id %}" class="waves-effect waves-light btn">descargar</a>
+                                             {% if user.rol_id == 1 %}
+                                             <a href="{% url 'album:elimfoto' foto.id %}" class="waves-effect waves-light btn red">eliminar</a>
+                                             {% endif %}
+                                         </td>
+                                     </tr>
+                                     {% endfor %}
+                                 </tbody>
+                             </table>
+                         {% else %}
+                         {% endif %}
+                
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+<script type="{% static 'galeria/js/main.js'%}"></script>
+{% endblock %}

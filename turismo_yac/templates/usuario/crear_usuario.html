@@ -4,12 +4,7 @@
     {% endblock %}
     {% block content %}
     <div class="row">
-        {% for error in form.username.errors %}
-         <a href="#" class="waves-effect waves-light red btn">{{ error }}</a>
-        {% endfor %}
-        {% for error in form.password2.errors %}
-         <a href="#" class="waves-effect waves-light red btn">{{ error }}</a>
-        {% endfor %}
+        
         <form class="col s12" method="POST">
         {% csrf_token %}
         <div class="row">
@@ -57,6 +52,16 @@
                             </label>
                         </div>
                         
+                    </div>
+                </div>
+                {% if user.rol_id == 1%}
+                <div class="row">
+                {% else %}
+                <div class="row" style="display: none;">
+                {% endif %}
+                    <div class="input-field col s4 offset-s4">
+                        {{ form.rol }}
+                        <label for="id_rol">seleccione un rol</label>
                     </div>
                 </div>
                 <div class="row">

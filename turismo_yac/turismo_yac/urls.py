@@ -19,6 +19,8 @@ from django.urls import path, include
 from apps.mapa import views
 from apps.usuario import views
 from apps.portada import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +30,5 @@ urlpatterns = [
     path('cuentas/', include('django.contrib.auth.urls')),
     path('album/', include(('apps.albumes.urls','album'))),
     path('paseos_v/', include(('apps.paseosv.urls','paseov'))),
-    
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

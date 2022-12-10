@@ -1,0 +1,49 @@
+{% extends 'main_usuario.html'%}
+{% load static %}
+{% block title %} listado de albumes{% endblock %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}">
+<link rel="stylesheet" href="{% static 'galeria/css/estilos.css'%}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+          <div class="col s12">
+               <div class="row">
+                    <div class="col s10 offset-s1">
+                         <h2 class="header">listado de paseos</h2>
+                         {% if p_lista %}
+                             <table id="dataTable" width="100%" cellspacing="0">
+                                 <thead>
+                                     <tr>
+                                         <th>paseo de:</th>
+                                         <th>opciones</th>
+                                     </tr>
+                                 </thead>
+                                
+                                 <tbody>
+                                     {% for paseo in p_lista %}
+                                     <tr>
+                                         <td>{{paseo.ubicacion}}</td>
+                                         <td>
+                                            {% if user.is_autenthicated and user.rol_id == '1' %}
+                                             <a href="#" class="waves-effect waves-light btn">editar</a>
+                                             {% endif %}
+                                             <a href="{% url 'paseov:verpaseov' paseo.id %}" class="waves-effect waves-light btn">ver</a>
+                                         </td>
+                                     </tr>
+                                     {% endfor %}
+                                 </tbody>
+                             </table>
+                         {% else %}
+                         {% endif %}
+                
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+<script type="{% static 'galeria/js/main.js'%}"></script>
+{% endblock %}

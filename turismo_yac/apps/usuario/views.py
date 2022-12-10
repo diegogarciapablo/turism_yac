@@ -5,7 +5,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.edit import FormView
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
@@ -16,15 +16,24 @@ from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 def iniciosesion(request):
     if request.method == 'POST':
-        form = FormularioLogin(request.POST)
-        if form.is_valid(): 
+        form_log = FormLog(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None: 
+            login(request, user)
+            messages.info(request,f'bienvenido {request.user.nombres} {request.user.apellidos}')
             return redirect('portada:index')
+        else:
+            messages.error(request,f'correo o contraseña invalidos')
     else:
-        form = FormularioLogin()
+        print("llego a get")
+        form_log = FormLog()
     context = {
-        'form':form
+        'form':form_log
         }
-    return render(request,'usuario/crear_usuario.html', context)
+    return render(request,'registration/login.html', context)
+
 
 def RegistrarUsuario(request):
     if request.method == 'POST':
@@ -35,6 +44,9 @@ def RegistrarUsuario(request):
             print("paso la validacion")
             usuario = form.save()
             return redirect('portada:index')
+        else:
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
     else:
         form = FormularioUsuario()
     context = {

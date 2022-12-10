@@ -1,0 +1,65 @@
+{% extends 'main_usuario.html' %}
+{% load static %}
+{% block title %}
+listado de categorias de ubicaciones
+{% endblock %}
+{% block extracss %}
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTable/datatables.min.css' %}"/>
+    <style type="text/css">
+        select {
+            display: inline-grid;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col s10 offset-s1">
+        <h2 class="header">listado de categorias de ubicaciones</h2>
+                    {% if c_lista %}
+                        <table id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>correo electronico</th>
+                                    <th>opciones</th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                {% for clas in c_lista %}
+                                <tr>
+                                    <td>{{clas.n_clas}}</td>
+                                    <td>
+                                        <a href="{% url 'mapa:editclas' clas.id %}" class="waves-effect waves-light btn">editar</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                    {% endif %}
+                
+    </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+    <script type="text/javascript" src="{% static 'DataTable/datatables.min.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready( function() {
+                $('#dataTable').DataTable();
+            } );
+            $('#dataTable').dataTable( {
+              "language": {
+                "lengthMenu": "mostrar entradas _MENU_",
+                "search": "busqueda:",
+                "info": "mostrando _START_ a _END_ de _TOTAL_ entradas",
+                "paginate": {
+                                "first":      "primera",
+                                "last":       "ultima",
+                                "next":       "siguiente",
+                                "previous":   "anterior"
+                            },
+                "zeroRecords":    "no se encuentran resultados para su busqueda",
+              }
+            } );
+        </script>
+{% endblock %}

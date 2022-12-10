@@ -1,0 +1,50 @@
+{% extends 'main_usuario.html'%}
+{% load static %}
+{% block title %} listado de albumes{% endblock %}
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'materialize/css/materialize.min.css' %}">
+<link rel="stylesheet" href="{% static 'galeria/css/estilos.css'%}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+          <div class="col s12">
+               <div class="row">
+                    <div class="col s10 offset-s1">
+                         <h2 class="header">listado de albumes</h2>
+                         {% if a_lista %}
+                             <table id="dataTable" width="100%" cellspacing="0">
+                                 <thead>
+                                     <tr>
+                                         <th>nombre de album</th>
+                                         <th>opciones</th>
+                                     </tr>
+                                 </thead>
+                                
+                                 <tbody>
+                                     {% for album in a_lista %}
+                                     <tr>
+                                         <td>{{album.n_album}}</td>
+                                         <td>
+                                            {% if user.rol_id == 1 %}
+                                             <a href="{% url 'album:edalbum' album.id %}" class="waves-effect waves-light btn">editar</a>
+                                             <a href="{% url 'album:listfoto' album.id %}" class="waves-effect waves-light btn">listar</a>
+                                             {% endif %}
+                                             <a href="{% url 'album:listfotos' album.id %}" class="waves-effect waves-light btn">ver</a>
+                                         </td>
+                                     </tr>
+                                     {% endfor %}
+                                 </tbody>
+                             </table>
+                         {% else %}
+                         {% endif %}
+                
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
+{% endblock %}
+{% block extrajs %}
+<script type="{% static 'galeria/js/main.js'%}"></script>
+{% endblock %}
