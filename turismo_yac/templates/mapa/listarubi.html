@@ -23,7 +23,9 @@ listado usuarios
                                     <th>clasificacion</th>
                                     <th>direccion</th>
                                     <th>descripcion</th>
+
                                     {% if user.is_authenticated %}
+                                    <th>comentar</th>
                                         {% if user.rol_id != 2 %}
                                         <th>autorizacion</th>
                                         <th>estado</th>
@@ -41,6 +43,7 @@ listado usuarios
                                     <td>{{ubi.direccion}}</td>
                                     <td>{{ubi.descripcion}}</td>
                                     {% if user.is_authenticated %}
+                                    <td><a href="{% url 'mapa:Regcomentubi' ubi.id %}" class="waves-effect waves-light btn">comentar</a></td>
                                         {% if user.rol_id != 2 %}
                                         <td>{{ubi.autorizacion}}</td>
                                         {% if ubi.estado == True %}

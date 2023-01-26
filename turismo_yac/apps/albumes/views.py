@@ -66,7 +66,7 @@ def R_Foto(request):
             print('paso validacion foto')
             form.save()
             messages.info(request,f'registro exitoso de album')
-            return redirect('portada:index')
+            return redirect('portada:index_main')
         else:
             print(form.errors)
             for error in form.errors.values():

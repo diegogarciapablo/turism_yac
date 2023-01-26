@@ -42,7 +42,11 @@
                                 <td><label>autorizado por</label></td>
                                 <td><input type="text" name="autorizacion" value="{{user.id}}"></td>                       
                             </tr>
+                            {% if user.rol_id == 1 %}
                             <tr>
+                            {% else %}
+                            <tr style="display: none;">
+                            {% endif %}
                                 <td><label>estado: </label></td>
                                 <td><label>
                                  {{ ubi_form.estado }}
@@ -51,7 +55,7 @@
                                 </td>                       
                             </tr>
                         </table>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">guardar</button>
+                            <button type="submit" class="waves-effect waves-light btn">guardar</button>
                         {% endif %}
                     </form>
                     </div>

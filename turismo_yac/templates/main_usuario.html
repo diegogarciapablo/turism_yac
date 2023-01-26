@@ -33,7 +33,7 @@
                 <!-- Dropdown Trigger -->
                 <li><a class="dropdown-trigger" href="#" data-target="dropdown1">
                     {% if user.is_authenticated %}
-                    {{user.nombres}}
+                    {{user.nombres}} {{user.apellidos}}
                     {% else %}
                     ingreso
                     {% endif %}

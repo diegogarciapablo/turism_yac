@@ -30,7 +30,7 @@
                                          <td>{{foto.descripcion}}</td>
                                          <td>{{foto.album}}</td>
                                          <td>
-                                             <a href="{% url 'album:descargar' foto.id %}" class="waves-effect waves-light btn">descargar</a>
+                                             <a href="{{ foto.ruta_foto.url }}" class="waves-effect waves-light btn" download>descargar</a>
                                              {% if user.rol_id == 1 %}
                                              <a href="{% url 'album:elimfoto' foto.id %}" class="waves-effect waves-light btn red">eliminar</a>
                                              {% endif %}

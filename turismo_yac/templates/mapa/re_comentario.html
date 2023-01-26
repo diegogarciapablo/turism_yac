@@ -21,9 +21,13 @@
                                   <label for="id_texto">comentario</label>
                               </div>
                          </div>
-                         <div class="row">
+                         <div class="row" style="display:none">
                               <div class="input-field col s4 offset-s4">
-                                  {{ form.ubicacion }}
+                              {% if ubi %}
+                                  <input name="ubicacion" type="text" class="validate" value="{{ubi}}">
+                              {% else %}
+                                   {{form.ubicacion}}
+                              {% endif %}
                                   <label for="id_ubicacion">ubicacion</label>
                               </div>
                          </div>

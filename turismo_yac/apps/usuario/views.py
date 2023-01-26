@@ -38,10 +38,7 @@ def iniciosesion(request):
 def RegistrarUsuario(request):
     if request.method == 'POST':
         form = FormularioUsuario(request.POST)
-        print("llego al post")
-        print(form)
         if form.is_valid():
-            print("paso la validacion")
             usuario = form.save()
             return redirect('portada:index')
         else:

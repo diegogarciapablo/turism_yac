@@ -9,6 +9,7 @@ from .models import *
 import folium
 import branca
 
+@login_required
 def RegistrarUbicacion(request):
     if request.method == 'POST':
         ubicacion_form = FormUbicacion(request.POST)
@@ -36,6 +37,7 @@ def RegistrarUbicacion(request):
     return render(request,'mapa/crear_ubi.html', context)
 
 
+@login_required
 def EditarUbicacion(request,id):
     ubi = Ubicacion.objects.get(id=id)
     if request.method == 'GET':
@@ -103,6 +105,7 @@ def Listaubi2(request, id):
     'u_lista': u_lista,
         }
     return render(request,'mapa/listarubi.html', context)
+
 
 def reg_clas(request):
     if request.method == 'POST':
@@ -198,3 +201,25 @@ def List_Comentarios2(request,id):
     'c_lista': c_lista,
         }
     return render(request,'mapa/list_coment.html', context)
+
+
+
+@login_required
+def RegComentUbi(request,ubi):
+    if request.method == 'POST':
+        form = FormComentario(request.POST)
+        form_valid= form.is_valid()
+        if form_valid:
+            form.save()
+            messages.info(request,f'registro exitoso del comentario')
+            return redirect('portada:index')
+        else:
+            for error in form.errors.values():
+                messages.error(request,f'{error}')
+    else:
+        form=FormComentario()
+    context={
+        'ubi':ubi,
+        'form':form,
+            }
+    return render(request,'mapa/re_comentario.html', context)

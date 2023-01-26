@@ -8,6 +8,7 @@ urlpatterns = [
     path('ver_map/',Mapa, name='vmapa'),
     path('listar_ubis/',Listaubi1, name='listubi'),
     path('list_filt_ubis/<int:id>',Listaubi2, name='listubif'),
+    path('reg_coment_ubi/<int:ubi>',RegComentUbi, name='Regcomentubi'),
     path('reg_clas_ubi',reg_clas, name='regclas'),
     path('edit_clas_ubi/<int:id>',Editar_clas, name='editclas'),
     path('listar_clas/',List_Clas, name='listclas'),
