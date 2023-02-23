@@ -15,6 +15,7 @@
     
 </head>
 <body>
+
 <div class="navbar-fixed">
     <nav>
         <div class="nav-wrapper grey darken-3">
@@ -42,6 +43,7 @@
         </div>
     </nav>
 </div>
+
 <!--lista de componentes menu para mobiles--> 
 <ul class="sidenav" id="mobile_menu">
     <li><a href="#">Sass</a></li>
@@ -80,35 +82,116 @@
     
 </ul>
 {% block content %}
-<div class="wrapper">
-        <div class="slider-holder">
-                <div class="carousel carousel-slider center-align">
-                    <div class="carousel-item" >
-                        <h1 class="d-block"><font color="black">disfruta del mirador</font></h1>
-                        <h4 ><font color="white">comparte una aventura con tus seres queridos.</font></h4>
-                        <img src="{%static 'main/assets/images/cruzz.png'%}">
-                    </div>
-                    <div class="carousel-item" >
-                        <h1 class="d-block" >Laguna Santa marta</h1>
-                        <h4 ><font color="white">orillas de la laguna a la luz de la luna.</font></h4>
-                        <img src="{%static 'main/assets/images/slider1.jpg'%}">
-                    </div>
-                    <div class="carousel-item" >
-                        <h1 class="d-block">Conoce nuevos lugares</h1>
-                        <h4 ><font color="white">Que esperas parar aprender un poco<br>mas de ti viajando.</font></h4>
-                        <img src="{%static 'main/assets/images/slider2.jpg'%}" >
-                    </div>
-                    <div class="carousel-item" >
-                        <h1 class="d-block"><font color="black">Conoce yacuiba</font></h1>
-                        <h4 ><font color="gray">ven y conoce esta frontera comercial con argentina.</font></h4>
-                        <img src="{%static 'main/assets/images/slider3.png'%}">
-                    </div>
+    <div class="wrapper">
+            <div class="slider-holder">
+                    <div class="carousel carousel-slider center-align">
+                        <div class="carousel-item" >
+                            <h1 class="d-block"><font color="black">disfruta del mirador</font></h1>
+                            <h4 ><font color="white">comparte una aventura con tus seres queridos.</font></h4>
+                            <img src="{%static 'main/assets/images/cruzz.png'%}">
+                        </div>
+                        <div class="carousel-item" >
+                            <h1 class="d-block" >Laguna Santa marta</h1>
+                            <h4 ><font color="white">orillas de la laguna a la luz de la luna.</font></h4>
+                            <img src="{%static 'main/assets/images/slider1.jpg'%}">
+                        </div>
+                        <div class="carousel-item" >
+                            <h1 class="d-block">Conoce nuevos lugares</h1>
+                            <h4 ><font color="white">Que esperas parar aprender un poco<br>mas de ti viajando.</font></h4>
+                            <img src="{%static 'main/assets/images/slider2.jpg'%}" >
+                        </div>
+                        <div class="carousel-item" >
+                            <h1 class="d-block"><font color="black">Conoce yacuiba</font></h1>
+                            <h4 ><font color="gray">ven y conoce esta frontera comercial con argentina.</font></h4>
+                            <img src="{%static 'main/assets/images/slider3.png'%}">
+                        </div>
 
-                </div>
-        </div>
+                    </div>
+            </div>
     </div>
-    
+<div class="container">
+    <h2 class="text-light">recuerdos de yacuiba</h2>
+    <p class="lead text-muted">se parte de las vivencias locales en imagenes.</p>
+    <table border="1">
+        <tr>
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/museo.jpeg'%}" class="img-fluid" style="width: 90%;"></a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><h4 class="text-dark">MUSEO EN SANANDITA</h4>
+                <p class="text-muted mb-0">HISTORIA Y CULTURA QUE NO PUEDES PERDER.</p></td>
+        </tr>
+        <tr>
+            
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/mirador.jpg'%}"style="width: 90%;"></a></td>
+        </tr>
+        <tr>
+            <td><p class="text-gold mb-3">plaza 6 de agosto</p>
+                <h5>¿quieres dar una vuelta por la plaza principal?</h5></td>
+            
+        </tr>
+        <tr>
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%;"></a></td>
+        </tr>
+        <tr>
+            
+            <td><p class="text-gold mb-3">plaza 6 de agosto</p>
+                <h5>¿quieres dar una vuelta por la plaza principal?</h5></td>
+        </tr>
+        <tr>
+            
+            <td></td>
+        </tr>
+    </table>
+</div>
+<div class="container">
+    <div class="row grey darken-2">
+        <div class="col s12 " >
+            <h2>empieza a usar el mapa</h2>
+            <p >pero aun no es todo aun hay mas si sigues bajando.</p>
+            <div class="col s2">
+                <p>
+                   <a href="#" class="waves-effect waves-light btn-large" style="color: black; background-color:white;">acceder al mapa </a> 
+                </p>
+            </div>
+            <img class="d-block w-100"  src="{%static 'main/assets/images/slider3.png'%}" alt="First slide" style="height: 200px; width: 100%;">
+        </div>    
+    </div>
+</div>
+<div class="container">
+    <h2 class="text-light">prueba la experiencia de las visitas virtuales en yacuiba</h2>
+    <p class="lead text-muted">en la seccion de visitas virtuales encontraras mas.</p>
+    <table border="1">
+        <tr>
+            <td><a href=""><img src="{%static 'main/assets/images/mirador.jpg'%}" style="width: 90%;"></a></td>
+            <td><a href=""><img src="{%static 'main/assets/images/aguayrenda.jpg'%}" style="width: 90%;"></a></td>
+            <td><a href=""><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%;"></a></td>
+        </tr>
+        <tr>
+            <td><h4 class="text-dark">MIRADOR DE LA CRUZ</h4>
+                <p class="text-muted mb-0">admira la ciudad en su esplendor.</p></td>
+            <td><h4 class="text-dark">AGUAYRENDA</h4>
+                <p class="text-muted mb-0">momentos vividos capturados en imagenes.</p></td>
+            <td><h4 class="text-dark">PLAZA PRINCIPAL</h4>
+                <p class="text-muted mb-0">un lugar para descanzar. </p></td>
+        </tr>
+    </table>
+</div>
+
 {% endblock %}
+<footer class="page-footer grey darken-3">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <p class="grey-text text-lighten-4"><span class="flow-text">© 2014 Copyright Text</span></p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                  <a class="grey-text text-lighten-3" href="#!"><span class="flow-text">registrate </span></a>
+                  <a class="grey-text text-lighten-3" href="#!"><span class="flow-text"> ingresa</span></a>
+              </div>
+            </div>
+          </div>
+        </footer>
 <script src="{% static 'DataTable/jQuery-3.6.0/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'materialize/js/materialize.js' %}"></script>
 <script>
