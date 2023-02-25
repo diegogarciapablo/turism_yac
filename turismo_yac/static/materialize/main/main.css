@@ -26,3 +26,6 @@
 .carousel .carousel-item h3, p {
 	vertical-align: top;
 }
+body{
+	text-transform: uppercase;
+}

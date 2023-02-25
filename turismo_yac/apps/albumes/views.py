@@ -102,4 +102,10 @@ def Elim_Foto(request, id):
 
 def Listar_Fotos(request, id):
         f_lista = Foto.objects.filter(album=id)
-        return render(request,'galeria/vis_fotos.html',{'f_lista': f_lista})
+        n_album = Album.objects.get(id=id)
+        album= n_album.n_album
+        context = {
+            'f_lista':f_lista,
+            'album':album,
+        }
+        return render(request,'galeria/vis_fotos.html', context)

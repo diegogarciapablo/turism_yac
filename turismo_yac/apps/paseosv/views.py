@@ -1,8 +1,10 @@
+from django.http import HttpResponseRedirect, FileResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from .forms import *
 from .models import *
+from django.conf import settings
 
 
 def prueba(request):
