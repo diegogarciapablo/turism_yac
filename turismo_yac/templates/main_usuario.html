@@ -79,7 +79,9 @@
     <li><a href="{% url 'mapa:listubif' 2 %}">hospedaje</a></li>
     <li><a href="{% url 'mapa:listubif' 3 %}">sitio de comida</a></li>
     <li><a href="{% url 'mapa:listubif' 4 %}">sitio religioso</a></li>
-    
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'mapa:listubi' %}">sitio religioso</a></li>
+    {% endif %}
 </ul>
 {% block content %}
     <div class="wrapper">
@@ -88,7 +90,7 @@
                         <div class="carousel-item" >
                             <h1 class="d-block"><font color="black">disfruta del mirador</font></h1>
                             <h4 ><font color="white">comparte una aventura con tus seres queridos.</font></h4>
-                            <img src="{%static 'main/assets/images/cruzz.png'%}">
+                            <img src="{%static 'main/assets/images/mirador2.png'%}">
                         </div>
                         <div class="carousel-item" >
                             <h1 class="d-block" >Laguna Santa marta</h1>
@@ -114,7 +116,7 @@
     <p class="lead text-muted">se parte de las vivencias locales en imagenes.</p>
     <table border="1">
         <tr>
-            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/museo.jpeg'%}" class="img-fluid" style="width: 90%;"></a></td>
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/museo.jpeg'%}" class="img-fluid" style="width: 90%; object-fit: none;"></a></td>
             <td></td>
         </tr>
         <tr>
@@ -123,15 +125,15 @@
         </tr>
         <tr>
             
-            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/mirador.jpg'%}"style="width: 90%;"></a></td>
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/mirador.jpg'%}"style="width: 90%; object-fit: none;"></a></td>
         </tr>
         <tr>
-            <td><p class="text-gold mb-3">plaza 6 de agosto</p>
-                <h5>¿quieres dar una vuelta por la plaza principal?</h5></td>
+            <td><p class="text-gold mb-3">MIRADOR DE LA CRUZ</p>
+                <h5>admira la ciudad en su esplendor.</h5></td>
             
         </tr>
         <tr>
-            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%;"></a></td>
+            <td rowspan="3"><a href="#"><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%; object-fit: none;"></a></td>
         </tr>
         <tr>
             
@@ -144,17 +146,20 @@
         </tr>
     </table>
 </div>
-<div class="container">
-    <div class="row grey darken-2">
-        <div class="col s12 " >
-            <h2>empieza a usar el mapa</h2>
+<div class="container" >
+    <div class="row grey darken-2" >
+        <h2>empieza a usar el mapa</h2>
+        <div class="col s12 " style="background-image: url('{%static 'main/assets/images/slider3.png'%}'); background-size: cover; background-repeat: no-repeat; height: 300px;">
+            <div class="row" >
+                <div class="col s10" >
             <p >pero aun no es todo aun hay mas si sigues bajando.</p>
-            <div class="col s2">
+            </div>
+            <div class="col s2" style=" line-height: 250px;">
                 <p>
-                   <a href="#" class="waves-effect waves-light btn-large" style="color: black; background-color:white;">acceder al mapa </a> 
+                   <a href="{% url 'mapa:vmapa'%}" class="waves-effect waves-light btn-large" style="color: black; background-color:white;">acceder al mapa </a> 
                 </p>
             </div>
-            <img class="d-block w-100"  src="{%static 'main/assets/images/slider3.png'%}" alt="First slide" style="height: 200px; width: 100%;">
+            </div>  
         </div>    
     </div>
 </div>
@@ -163,9 +168,9 @@
     <p class="lead text-muted">en la seccion de visitas virtuales encontraras mas.</p>
     <table border="1">
         <tr>
-            <td><a href=""><img src="{%static 'main/assets/images/mirador.jpg'%}" style="width: 90%;"></a></td>
-            <td><a href=""><img src="{%static 'main/assets/images/aguayrenda.jpg'%}" style="width: 90%;"></a></td>
-            <td><a href=""><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%;"></a></td>
+            <td><a href=""><img src="{%static 'main/assets/images/mirador.jpg'%}" style="width: 90%; object-fit: none;"></a></td>
+            <td><a href=""><img src="{%static 'main/assets/images/aguayrenda.jpg'%}" style="width: 90%; object-fit: none;"></a></td>
+            <td><a href=""><img src="{%static 'main/assets/images/plaza.jpg'%}" style="width: 90%; object-fit: none;"></a></td>
         </tr>
         <tr>
             <td><h4 class="text-dark">MIRADOR DE LA CRUZ</h4>
@@ -179,15 +184,19 @@
 </div>
 
 {% endblock %}
-<footer class="page-footer grey darken-3">
+<footer class="page-footer grey darken-3" style="text-transform: lowercase;">
           <div class="container">
             <div class="row">
               <div class="col l6 s12">
-                <p class="grey-text text-lighten-4"><span class="flow-text">© 2014 Copyright Text</span></p>
+                <p class="grey-text text-lighten-4"><span class="flow-text"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia de Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></br></a>Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/" style="text-transform: lowercase;">licencia de Creative Commons Reconocimiento 4.0 Internacional</a>.</span></p>
               </div>
-              <div class="col l4 offset-l2 s12">
-                  <a class="grey-text text-lighten-3" href="#!"><span class="flow-text">registrate </span></a>
-                  <a class="grey-text text-lighten-3" href="#!"><span class="flow-text"> ingresa</span></a>
+              <div class="col l4 offset-l2 s12" style="line-height: 100px; word-spacing: 2px">
+                {% if user.is_authenticated%}
+                    <p class="grey-text text-lighten-3 ">Bienvenido {{user.nombres}} {{user.apellidos}}</p>
+                {% else %}
+                    <a class="grey-text text-lighten-3" href="{% url 'usuarios:registrar_usuario'%}"><span class="flow-text" style="text-transform: lowercase;">registrate </span></a>
+                    <a class="grey-text text-lighten-3" href="{% url 'usuarios:login_user'%}"><span class="flow-text" style="text-transform: lowercase;"> ingresa</span></a>
+                {% endif %}
               </div>
             </div>
           </div>
