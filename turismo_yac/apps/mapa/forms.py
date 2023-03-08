@@ -94,7 +94,7 @@ class FormComentario(forms.ModelForm):
                     'class' : 'validate'
                 }
                 ),
-            'puntaje' : forms.Select(
+            'puntaje' : forms.TextInput(
                 attrs = {
                     'class' : 'validate'
                 }

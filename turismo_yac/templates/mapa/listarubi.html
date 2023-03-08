@@ -5,11 +5,7 @@ listado usuarios
 {% endblock %}
 {% block extracss %}
     <link rel="stylesheet" type="text/css" href="{% static 'DataTable/datatables.min.css' %}"/>
-    <style type="text/css">
-        select {
-            display: inline-grid;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'materialize/main/estrellas.css' %}">
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -19,18 +15,19 @@ listado usuarios
                         <table id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>nombre</th>
+                                    <th>nombres</th>
                                     <th>categoria</th>
                                     <th>direccion</th>
-                                    <th>descripcion</th>
-
+                                    {% if punt %}
+                                    <th>puntaje</th>
+                                    {% endif %}
                                     {% if user.is_authenticated %}
                                     <th>comentar</th>
-                                        {% if user.rol_id != 2 %}
-                                        <th>autorizacion</th>
-                                        <th>estado</th>
-                                        <th>opciones</th>
-                                        {% endif %}
+                                    {% if user.rol_id == 1  %}
+                                    <th>autorizacion</th>
+                                    <th>estado</th> 
+                                    <th>opciones</th>
+                                    {% endif %}
                                     {% endif %}
                                 </tr>
                             </thead>
@@ -41,10 +38,54 @@ listado usuarios
                                     <td>{{ubi.n_ubicacion}}</td>
                                     <td>{{ubi.clasificacion}}</td>
                                     <td>{{ubi.direccion}}</td>
-                                    <td>{{ubi.descripcion}}</td>
+                                    {% for p in punt %}
+                                        {% if p.0 == ubi.id %}
+                                        <td>
+                                            <form>
+                                          <p class="clasificacion">
+                                            {% if p.1 > 4 and  p.1 <= 5 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="5"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="5">
+                                             {% endif %}
+                                            <label for="radio1">★</label>
+                                            {% if p.1 > 3 and  p.1 <= 4 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="4"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="4">
+                                             {% endif %}
+                                            <label for="radio2">★</label>
+                                            {% if p.1 > 2 and  p.1 <= 3 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="3"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="3">
+                                             {% endif %}
+                                            <label for="radio3">★</label>
+                                            {% if p.1 > 1 and  p.1 <= 2 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="2"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="2">
+                                             {% endif %}
+                                            <label for="radio4">★</label>
+                                            {% if p.1 == 1 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="1"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="1">
+                                             {% endif %}
+                                            <label for="radio5">★</label>
+                                          </p>
+                                        </form>
+                                        </td>
+                                        {% endif %}
+                                    {% endfor %}
                                     {% if user.is_authenticated %}
                                     <td><a href="{% url 'mapa:Regcomentubi' ubi.id %}" class="waves-effect waves-light btn">comentar</a></td>
-                                        {% if user.rol_id != 2 %}
+                                        {% if user.rol_id == 1 %}
                                         <td>{{ubi.autorizacion}}</td>
                                         {% if ubi.estado == True %}
                                             <td>activo</td>

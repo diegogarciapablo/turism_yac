@@ -17,6 +17,7 @@ class Foto(models.Model):
     ruta_foto = models.FileField(upload_to='fotos/', blank=False, null= True)
     descripcion = models.CharField(verbose_name = 'descripcion', max_length=200, blank=True, null = True)
     album = models.ForeignKey('Album', on_delete=models.CASCADE,default=1)
+    n_foto = models.CharField(verbose_name = 'nombre foto', max_length=150, blank=True, null = True)
 
     def __str__(self):
         return f'{Album.n_album} {self.id}'

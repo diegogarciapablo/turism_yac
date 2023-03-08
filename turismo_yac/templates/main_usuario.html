@@ -79,9 +79,9 @@
     <li><a href="{% url 'mapa:listubif' 2 %}">hospedaje</a></li>
     <li><a href="{% url 'mapa:listubif' 3 %}">sitio de comida</a></li>
     <li><a href="{% url 'mapa:listubif' 4 %}">sitio religioso</a></li>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'mapa:listubi' %}">sitio religioso</a></li>
-    {% endif %}
+    
+    <li><a href="{% url 'mapa:listubi' %}">todos los lugares</a></li>
+    
 </ul>
 {% block content %}
     <div class="wrapper">
@@ -246,6 +246,7 @@
         {% endif %}
     {% endfor %}
 {% endif %}
+
 {% block extrajs %}
 {% endblock %}
 </body>

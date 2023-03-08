@@ -5,11 +5,7 @@ listado usuarios
 {% endblock %}
 {% block extracss %}
     <link rel="stylesheet" type="text/css" href="{% static 'DataTable/datatables.min.css' %}"/>
-    <style type="text/css">
-        select {
-            display: inline-grid;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'materialize/main/estrellas.css' %}">
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -35,7 +31,47 @@ listado usuarios
                                     <td>{{comentario.texto}}</td>
                                     <td>{{comentario.ubicacion}}</td>
                                     <td>{{comentario.autor}}</td>
-                                    <td>{{comentario.puntaje}}</td>
+                                    <td>
+                                        <form>
+                                          <p class="clasificacion">
+                                            {% if comentario.puntaje == 5 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="5"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="5">
+                                             {% endif %}
+                                            <label for="radio1">★</label>
+                                            {% if comentario.puntaje == 4 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="4"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="4">
+                                             {% endif %}
+                                            <label for="radio2">★</label>
+                                            {% if comentario.puntaje == 3 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="3"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="3">
+                                             {% endif %}
+                                            <label for="radio3">★</label>
+                                            {% if comentario.puntaje == 2 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="2"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="2">
+                                             {% endif %}
+                                            <label for="radio4">★</label>
+                                            {% if comentario.puntaje == 1 %}
+                                            <input id="radio2" type="radio" name="estrellas" value="1"
+                                             checked >
+                                             {% else %}
+                                             <input id="radio2" type="radio" name="estrellas" value="1">
+                                             {% endif %}
+                                            <label for="radio5">★</label>
+                                          </p>
+                                        </form>
+                                    </td>
                                     {% if user.rol_id != 1 %}
                                         <td>
                                             <a href="{% url 'mapa:editcoment' comentario.id %}" class="waves-effect waves-light btn">editar</a>

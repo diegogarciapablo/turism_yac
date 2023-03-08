@@ -9,7 +9,6 @@ class FormAlbum(forms.ModelForm):
             'n_album' : forms.TextInput(
                 attrs = {
                     'class' : 'validate',
-
                 }
                 ),
         }
@@ -22,7 +21,7 @@ class FormAlbum(forms.ModelForm):
 class FormFoto(forms.ModelForm):
     class Meta:
         model = Foto
-        fields = ('ruta_foto','descripcion','album',)
+        fields = ('ruta_foto','descripcion','album')
         widgets = {
             'descripcion' : forms.TextInput(
                 attrs = {

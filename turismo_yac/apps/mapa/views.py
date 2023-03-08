@@ -72,11 +72,11 @@ def Mapa(request):
     #creando mapa
     m = folium.Map(location=[-22.01392810529076, -63.677741626018076], zoom_start=16, tiles='cartodbpositron',)
     #combinando ambas consultas
-    cont=0
+ 
     for y in ubi_lista:
         for x in clas_lista:
             if x[0]==y[2]:
-                html = "<b>"+x[1].upper()+"</br>"+y[1].upper()+"</b></br>"+y[3].upper()
+                html = "<b>"+x[1].upper()+"</br>"+y[1].upper()+"</b></br>"+y[3].upper()+"</br>"+"<a href=http://localhost:8000/mapa/reg_coment_ubi/"+str(x[0])+" Target='_top'><button>COMENTA</button></a>"
                 iframe1 = branca.element.IFrame(html=html,width=170,height=130)
                 v_icon=folium.Icon(color=x[2],icon=x[3])
                 folium.Marker(location=[y[4],y[5]], popup=folium.Popup(iframe1, max_width=300),icon =v_icon ).add_to(m)
@@ -88,23 +88,42 @@ def Mapa(request):
             }
     return render(request, 'mapa/mapa.html', context)
 
-@login_required
+
 def Listaubi1(request):
-    if request.user.rol_id == 1:
+    if request.user.is_authenticated:
         u_lista = Ubicacion.objects.all()
         context={
         'u_lista': u_lista,
             }
         return render(request,'mapa/listarubi.html', context)
     else:
-        messages.info(request,f'no tiene permisos de administrador')
+        messages.info(request,f'inicia sesion para ver esta opcion')
         return redirect('portada:index')
 def Listaubi2(request, id):
     u_lista = Ubicacion.objects.filter(clasificacion=id,estado=True)
+    punt=[]
+    for u in u_lista:
+        a=prom_star(u.id)
+        punt.append([u.id,a])
     context={
+    'punt':punt,
     'u_lista': u_lista,
         }
     return render(request,'mapa/listarubi.html', context)
+
+def prom_star(x):
+    cont=Comentario.objects.filter(ubicacion=x).count()
+    if cont!=0:
+        list_coment=Comentario.objects.filter(ubicacion=x)
+        total=0
+        prom=0
+        for c in list_coment:
+            total=total+c.puntaje
+        prom=total/cont
+        return (prom)
+    else:
+        return (0)
+
 
 
 def reg_clas(request):

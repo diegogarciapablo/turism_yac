@@ -19,9 +19,10 @@
                     {% for foto in f_lista %}
                     <div class="col s12 m4 l3">
                          <div class="material-placeholder" width="100%" height="100%">
-                              <img src="/media/{{foto.ruta_foto}}" alt="" class="responsive-img materialboxed" data-caption="{{foto.descripcion}}" >
+                              <img src="/media/{{foto.ruta_foto}}" alt="{{foto.descripcion}}" class="responsive-img materialboxed" data-caption="{{foto.descripcion}}" title="{{foto.descripcion}}">
                          {% if user.is_authenticated %}
-                         <a href="{{ foto.ruta_foto.url }}" class="waves-effect waves-light btn" download>descargar</a>
+                         <a href="{{ foto.ruta_foto.url }}" class="waves-effect waves-light btn" download="{{foto.descripcion}}.jpg">descargar ({{ foto.ruta_foto.size|filesizeformat  }})</a>
+                         <a download="{{foto.descripcion}}" href="/media/{{foto.ruta_foto}}">{{foto.ruta_foto.url}}</a>
                          {% endif %}
                          </div>
                     </div>

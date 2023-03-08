@@ -34,15 +34,9 @@ class Ubicacion(models.Model):
 
 
 class Comentario(models.Model):
-    puntaje_choices=(
-        ('1','MALO'),
-        ('2','MODESTO'),
-        ('3','COMUN'),
-        ('4','BUENO'),
-        ('5','PERFECTO'),
-            )
+
     id = models.AutoField(primary_key= True)
     texto = models.CharField(verbose_name = 'comentario', max_length=150, blank=True, null = True)
     ubicacion = models.ForeignKey('Ubicacion', on_delete=models.CASCADE,default=1)
     autor = models.ForeignKey('usuario.Usuario', on_delete=models.CASCADE)
-    puntaje = models.CharField(verbose_name = 'puntaje', max_length=1, blank=True, null = True, choices=puntaje_choices, default=3)
+    puntaje = models.IntegerField(verbose_name = 'puntaje', blank=True, null = True,  default=3)
