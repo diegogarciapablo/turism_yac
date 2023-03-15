@@ -9,61 +9,67 @@ from .models import *
 import folium
 import branca
 
-@login_required
 def RegistrarUbicacion(request):
-    if request.method == 'POST':
-        ubicacion_form = FormUbicacion(request.POST)
-        ubi_valid= ubicacion_form.is_valid()
-        nubi = request.POST.get('n_ubicacion')
-        if ubi_valid:
-            ubicacion_form.save()
-            messages.info(request,f'registro exitoso de ubicacion {nubi}')
-            return redirect('portada:index')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            ubicacion_form = FormUbicacion(request.POST)
+            ubi_valid= ubicacion_form.is_valid()
+            nubi = request.POST.get('n_ubicacion')
+            if ubi_valid:
+                ubicacion_form.save()
+                messages.info(request,f'registro exitoso de ubicacion {nubi}')
+                return redirect('portada:index')
+            else:
+                for error in ubicacion_form.errors.values():
+                    messages.error(request,f'{error}')
         else:
-            for error in ubicacion_form.errors.values():
-                messages.error(request,f'{error}')
+            ubicacion_form=FormUbicacion()
+            #creando mapa
+        m = folium.Map(location=[-22.01392810529076, -63.677741626018076], zoom_start=16, )
+        # obtencion de coordenadas
+        m.add_child(folium.LatLngPopup())
+        # representacion html del mapa
+        m = m._repr_html_()
+        context={
+            'm': m,
+            'ubi_form':ubicacion_form,
+                }
+        return render(request,'mapa/crear_ubi.html', context)
     else:
-        ubicacion_form=FormUbicacion()
-        #creando mapa
-    m = folium.Map(location=[-22.01392810529076, -63.677741626018076], zoom_start=16, )
-    # obtencion de coordenadas
-    m.add_child(folium.LatLngPopup())
-    # representacion html del mapa
-    m = m._repr_html_()
-    context={
-        'm': m,
-        'ubi_form':ubicacion_form,
-            }
-    return render(request,'mapa/crear_ubi.html', context)
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')
 
 
-@login_required
 def EditarUbicacion(request,id):
-    ubi = Ubicacion.objects.get(id=id)
-    if request.method == 'GET':
-        ubi_form = FormUbicacion(instance = ubi)
+    if request.user.is_authenticated and request.user.rol_id == 1:
+        ubi = Ubicacion.objects.get(id=id)
+        if request.method == 'GET':
+            ubi_form = FormUbicacion(instance = ubi)
+        else:
+            ubi_form = FormUbicacion(request.POST, instance = ubi)
+            nubi = request.POST.get('n_ubicacion')
+            if ubi_form.is_valid():
+                ubi_form.save()
+                messages.info(request,f'modificacion exitosa de categoria {nubi}')
+                return redirect('portada:index')
+            else: 
+                for error in ubi_form.errors.values():
+                    messages.error(request,f'{error}')
+        
+        m = folium.Map(location=[ubi.latitud, ubi.longitud], zoom_start=16, )
+        folium.Marker([ubi.latitud, ubi.longitud]).add_to(m)
+        # obtencion de coordenadas
+        m.add_child(folium.LatLngPopup())
+        # representacion html del mapa
+        m = m._repr_html_()
+        context={
+            'm': m,
+            'ubi_form':ubi_form,
+                }
+        return render(request,'mapa/crear_ubi.html', context)
     else:
-        ubi_form = FormUbicacion(request.POST, instance = ubi)
-        nubi = request.POST.get('n_ubicacion')
-        if ubi_form.is_valid():
-            ubi_form.save()
-            messages.info(request,f'modificacion exitosa de categoria {nubi}')
-            return redirect('portada:index')
-        else: 
-            for error in ubi_form.errors.values():
-                messages.error(request,f'{error}')
-    
-    m = folium.Map(location=[ubi.latitud, ubi.longitud], zoom_start=16, )
-    folium.Marker([ubi.latitud, ubi.longitud]).add_to(m)
-    # obtencion de coordenadas
-    m.add_child(folium.LatLngPopup())
-    # representacion html del mapa
-    m = m._repr_html_()
-    context={
-        'm': m,
-        'ubi_form':ubi_form,
-            }
-    return render(request,'mapa/crear_ubi.html', context)
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
+        return redirect('portada:index')
 
 def Mapa(request):
     #obteniendo datos de la db
@@ -97,8 +103,9 @@ def Listaubi1(request):
             }
         return render(request,'mapa/listarubi.html', context)
     else:
-        messages.info(request,f'inicia sesion para ver esta opcion')
-        return redirect('portada:index')
+        messages.warning(request,f'inicia sesion para ver esta opcion')
+        return redirect('usuarios:login_user')
+
 def Listaubi2(request, id):
     u_lista = Ubicacion.objects.filter(clasificacion=id,estado=True)
     punt=[]
@@ -127,118 +134,129 @@ def prom_star(x):
 
 
 def reg_clas(request):
-    if request.method == 'POST':
-        form = FormClasUbicacion(request.POST)
-        form_valid= form.is_valid()
-        if form_valid:
-            form.save()
-            messages.info(request,f'registro exitoso de clasificacion de ubicacion')
-            return redirect('portada:index')
+    if request.user.is_authenticated and request.user.rol_id == 1:
+        if request.method == 'POST':
+            form = FormClasUbicacion(request.POST)
+            form_valid= form.is_valid()
+            if form_valid:
+                form.save()
+                messages.info(request,f'registro exitoso de clasificacion de ubicacion')
+                return redirect('portada:index')
+            else:
+                for error in form.errors.values():
+                    messages.error(request,f'{error}')
         else:
-            for error in form.errors.values():
-                messages.error(request,f'{error}')
+            form=FormClasUbicacion()
+        context={
+            'form':form,
+                }
+        return render(request,'mapa/re_cat_ubi.html', context)
     else:
-        form=FormClasUbicacion()
-    context={
-        'form':form,
-            }
-    return render(request,'mapa/re_cat_ubi.html', context)
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
+        return redirect('portada:index')
 
 def Editar_clas(request,id):
-    clas = Clas_ubicacion.objects.get(id=id)
-    if request.method == 'GET':
-        form = FormClasUbicacion(instance = clas)
-    else:
-        form = FormClasUbicacion(request.POST, instance = clas)
-        nclas = request.POST.get('n_clas')
-        if form.is_valid():
-            form.save()
-            messages.info(request,f'modificacion exitosa de categoria {nclas}')
-            return redirect('portada:index')
-        else: 
-            for error in form.errors.values():
-                messages.error(request,f'{error}')
-    return render(request,'mapa/re_cat_ubi.html',{'form':form})
-
-@login_required
-def List_Clas(request):
-    c_lista = Clas_ubicacion.objects.all()
-    context={
-    'c_lista': c_lista,
-        }
-    return render(request,'mapa/listarclas.html', context)
-
-def Reg_Comentario(request):
-    if request.method == 'POST':
-        form = FormComentario(request.POST)
-        form_valid= form.is_valid()
-        if form_valid:
-            form.save()
-            messages.info(request,f'registro exitoso del comentario')
-            return redirect('portada:index')
+    if request.user.is_authenticated and request.user.rol_id == 1:
+        clas = Clas_ubicacion.objects.get(id=id)
+        if request.method == 'GET':
+            form = FormClasUbicacion(instance = clas)
         else:
-            for error in form.errors.values():
-                messages.error(request,f'{error}')
+            form = FormClasUbicacion(request.POST, instance = clas)
+            nclas = request.POST.get('n_clas')
+            if form.is_valid():
+                form.save()
+                messages.info(request,f'modificacion exitosa de categoria {nclas}')
+                return redirect('portada:index')
+            else: 
+                for error in form.errors.values():
+                    messages.error(request,f'{error}')
+        return render(request,'mapa/re_cat_ubi.html',{'form':form})
     else:
-        form=FormComentario()
-    context={
-        'form':form,
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
+        return redirect('portada:index')
+
+
+def List_Clas(request):
+    if request.user.is_authenticated and request.user.rol_id == 1:
+        c_lista = Clas_ubicacion.objects.all()
+        context={
+        'c_lista': c_lista,
             }
-    return render(request,'mapa/re_comentario.html', context)
+        return render(request,'mapa/listarclas.html', context)
+    else:
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
+        return redirect('portada:index')
+
 
 def Editar_coment(request,id):
-    coment = Comentario.objects.get(id=id)
-    if request.method == 'GET':
-        form = FormComentario(instance = coment)
+    if request.user.is_authenticated:
+        coment = Comentario.objects.get(id=id)
+        if request.method == 'GET':
+            form = FormComentario(instance = coment)
+        else:
+            form = FormComentario(request.POST, instance = coment)
+            if form.is_valid():
+                form.save()
+                messages.info(request,f'modificacion exitosa de coemntario')
+                return redirect('portada:index')
+            else: 
+                for error in form.errors.values():
+                    messages.error(request,f'{error}')
+        return render(request,'mapa/re_comentario.html',{'form':form})
     else:
-        form = FormComentario(request.POST, instance = coment)
-        if form.is_valid():
-            form.save()
-            messages.info(request,f'modificacion exitosa de coemntario')
-            return redirect('portada:index')
-        else: 
-            for error in form.errors.values():
-                messages.error(request,f'{error}')
-    return render(request,'mapa/re_comentario.html',{'form':form})
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')
 
-@login_required
+
 def List_Comentarios(request):
-    if request.user.rol_id == 1:
+    if request.user.is_authenticated and request.user.rol_id == 1:
         c_lista = Comentario.objects.all()
         context={
         'c_lista': c_lista,
             }
         return render(request,'mapa/list_coment.html', context)
     else:
-        messages.info(request,f'usted no tiene autorizacion para ingresar a este sitio')
-    return redirect('portada:index')
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
+        return redirect('portada:index')
 
-@login_required
+
 def List_Comentarios2(request,id):
-    c_lista = Comentario.objects.filter(autor=id)
-    context={
-    'c_lista': c_lista,
-        }
-    return render(request,'mapa/list_coment.html', context)
-
-
-
-@login_required
-def RegComentUbi(request,ubi):
-    if request.method == 'POST':
-        form = FormComentario(request.POST)
-        form_valid= form.is_valid()
-        if form_valid:
-            form.save()
-            messages.info(request,f'registro exitoso del comentario')
-            return redirect('portada:index')
+    if request.user.is_authenticated:
+        if request.user.id == id:
+            c_lista = Comentario.objects.filter(autor=id)
+            context={
+            'c_lista': c_lista,
+                }
+            return render(request,'mapa/list_coment.html', context)
         else:
-            for error in form.errors.values():
-                messages.error(request,f'{error}')
+            messages.warning(request,f'no puedes ingresar a esta seccion de esta manera')
+            return redirect('portada:index')
     else:
-        form=FormComentario()
-    context={
-        'ubi':ubi,
-        'form':form,
-            }
-    return render(request,'mapa/re_comentario.html', context)
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')
+
+
+
+
+def RegComentUbi(request,ubi):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = FormComentario(request.POST)
+            form_valid= form.is_valid()
+            if form_valid:
+                form.save()
+                messages.info(request,f'registro exitoso del comentario')
+                return redirect('portada:index')
+            else:
+                for error in form.errors.values():
+                    messages.error(request,f'{error}')
+        else:
+            form=FormComentario()
+        context={
+            'ubi':ubi,
+            'form':form,
+                }
+        return render(request,'mapa/re_comentario.html', context)
+    else:
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')

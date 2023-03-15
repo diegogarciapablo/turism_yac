@@ -18,7 +18,7 @@ def reg_paseov(request):
             messages.info(request,f'registro exitoso de paseo_v')
             return redirect('portada:index')
         else:
-            print(form.errors)
+            
             for error in form.errors.values():
                 messages.error(request,f'{error}')
     else:

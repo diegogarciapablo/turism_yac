@@ -19,9 +19,7 @@ listado usuarios
                                     <th>ubicacion</th>
                                     <th>autor</th>
                                     <th>puntaje</th>
-                                    {% if user.rol_id != 1 %}
                                     <th>opciones</th>
-                                    {% endif %}
                                 </tr>
                             </thead>
                            
@@ -72,7 +70,7 @@ listado usuarios
                                           </p>
                                         </form>
                                     </td>
-                                    {% if user.rol_id != 1 %}
+                                    {% if user.rol_id != 1 or comentario.autor_id == user.id %}
                                         <td>
                                             <a href="{% url 'mapa:editcoment' comentario.id %}" class="waves-effect waves-light btn">editar</a>
                                         </td>

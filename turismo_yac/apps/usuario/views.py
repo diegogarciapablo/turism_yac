@@ -27,7 +27,7 @@ def iniciosesion(request):
         else:
             messages.error(request,f'correo o contraseña invalidos')
     else:
-        print("llego a get")
+        
         form_log = FormLog()
     context = {
         'form':form_log
@@ -52,40 +52,49 @@ def RegistrarUsuario(request):
     return render(request,'usuario/crear_usuario.html', context)
 
 def ListadoUsuario(request):
-    if request.user.rol_id == 1:
+    if request.user.is_authenticated and request.user.rol_id == 1:
         u_lista = Usuario.objects.all()
         return render(request,'usuario/listar_usuarios.html',{'u_lista': u_lista})
     else:
+        messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
         return redirect('portada:index')
 
 
 def EditarUsuario(request,id):
-    if request.user.id==id:
-        usuario = Usuario.objects.get(id=id)
-        if request.method == 'GET':
-            u_form = FormEditUsuario(instance = usuario)
+    if request.user.is_authenticated:
+        if request.user.id==id:
+            usuario = Usuario.objects.get(id=id)
+            if request.method == 'GET':
+                u_form = FormEditUsuario(instance = usuario)
+            else:
+                u_form = FormEditUsuario(request.POST, instance = usuario)
+                if u_form.is_valid():
+                    u_form.save()
+                return redirect('portada:index')
+            
+            return render(request,'usuario/editar_usuario.html',{'u_form':u_form})
         else:
-            u_form = FormEditUsuario(request.POST, instance = usuario)
-            if u_form.is_valid():
-                print("usuario valido")
-                u_form.save()
+            messages.warning(request,f'no puedes ingresar a esa seccion')
             return redirect('portada:index')
-        print(u_form)
-        return render(request,'usuario/editar_usuario.html',{'u_form':u_form})
     else:
-        return redirect('portada:index')
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')
 
 def AdminEditaUsuario(request,id):
-    if request.user.rol_id == 1:
-        usuario = Usuario.objects.get(id=id)
-        if request.method == 'GET':
-           u_form = FormEditAdmin(instance = usuario)
+    if request.user.is_authenticated:
+        if request.user.rol_id == 1:
+            usuario = Usuario.objects.get(id=id)
+            if request.method == 'GET':
+               u_form = FormEditAdmin(instance = usuario)
+            else:
+                u_form = FormEditAdmin(request.POST, instance = usuario)
+                if u_form.is_valid():
+                    u_form.save()
+                return redirect('portada:index')
+            return render(request,'usuario/admin_edita_usuario.html',{'u_form':u_form})
         else:
-            u_form = FormEditAdmin(request.POST, instance = usuario)
-            if u_form.is_valid():
-                print("usuario valido")
-                u_form.save()
+            messages.warning(request,f'solo un administrador puede ingresar a esa seccion')
             return redirect('portada:index')
-        return render(request,'usuario/admin_edita_usuario.html',{'u_form':u_form})
     else:
-        return redirect('portada:index')
+        messages.warning(request,f'inicia sesion para ingresar a esa seccion')
+        return redirect('usuarios:login_user')

@@ -45,10 +45,10 @@ def Editar_Album(request,id):
     if request.method == 'GET':
         form = FormAlbum(instance = album)
     else:
-        print('llega a post de edicion')
+        
         form = FormAlbum(request.POST, instance = album)
         nalbum = request.POST.get('n_album')
-        print(form.errors)
+        
         if form.is_valid():
             form.save()
             messages.info(request,f'modificacion exitosa de album {nalbum}')
@@ -61,14 +61,14 @@ def Editar_Album(request,id):
 def R_Foto(request):
     if request.method == 'POST':
         form = FormFoto(request.POST, request.FILES)
-        print('llega a post de creacion foto')
+        
         if form.is_valid():
-            print('paso validacion foto')
+            
             form.save()
             messages.info(request,f'registro exitoso de album')
             return redirect('portada:index_main')
         else:
-            print(form.errors)
+            
             for error in form.errors.values():
                 messages.error(request,f'{error}')
     else:
